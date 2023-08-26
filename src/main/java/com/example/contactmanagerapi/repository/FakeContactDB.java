@@ -3,10 +3,7 @@ package com.example.contactmanagerapi.repository;
 import com.example.contactmanagerapi.model.Contact;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository("fakeDB") //Bean pour être instancié par springboot
 public class FakeContactDB implements ContactRepo {
@@ -18,6 +15,7 @@ public class FakeContactDB implements ContactRepo {
     public int addContact(Contact contact) {
         contact.setId(UUID.randomUUID());
         this.DB.add(contact);
+        Collections.sort(DB,(c1,c2)->c1.compareTo(c2));
         return 1;
     }
 
@@ -29,7 +27,6 @@ public class FakeContactDB implements ContactRepo {
         else{
             int index = DB.indexOf(c.get());
             DB.set(index,contact);
-            System.out.println(DB.get(index).getTel());
             return 1;
         }
     }

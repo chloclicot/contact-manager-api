@@ -3,12 +3,13 @@ package com.example.contactmanagerapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.UUID;
 
-public class Contact {
+public class Contact implements Comparable<Contact> {
     private UUID id; //pour avoir un truc unique
     @NonNull
     private String Name;
@@ -29,7 +30,13 @@ public class Contact {
         Surname = surname;
         Tel = tel;
         this.email = email;
-        this.birthday = birthday;
+        if(!birthday.equals((""))){
+            var currentDate = LocalDate.now();
+            LocalDate date = LocalDate.parse(birthday);
+            this.birthday = date.getDayOfMonth()+" "+date.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE)
+                    +" ("+ Period.between(date, currentDate).getYears()+") ans";
+        }
+        else this.birthday = birthday;
     }
 
     public UUID getId() {
@@ -80,18 +87,13 @@ public class Contact {
         this.birthday = birthday;
     }
 
-  /*
     @Override
-    public int compareTo(Object obj) {
-        var o = (Contact) obj;
-        if(this.getName().equals(o.getName())){
-            if(this.getSurname()!=null && o.getSurname()!= null){
-                return 0;
-            }
-            else if(this.getSurname()==null)return 1;
+    public int compareTo(Contact c) {
+        if(this.getName().equals(c.getName())){
+            if(this.getSurname()==null)return -1;
+            if(c.getSurname()==null)return 1;
+            return this.getSurname().compareTo(c.getSurname());
         }
-        else return this.getName().compareTo(o.getName());
-
-    }*/
-
+        return this.getName().compareTo(c.getName());
+    }
 }
