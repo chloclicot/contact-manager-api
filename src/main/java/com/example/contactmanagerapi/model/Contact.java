@@ -89,11 +89,11 @@ public class Contact implements Comparable<Contact> {
 
     @Override
     public int compareTo(Contact c) {
-        if(this.getName().equals(c.getName())){
+        if(this.getName().toLowerCase().equals(c.getName().toLowerCase())){
             if(this.getSurname()==null)return -1;
             if(c.getSurname()==null)return 1;
-            return this.getSurname().compareTo(c.getSurname());
+            return this.getSurname().toLowerCase().compareTo(c.getSurname().toLowerCase());
         }
-        return this.getName().compareTo(c.getName());
+        return this.getName().toLowerCase().compareTo(c.getName().toLowerCase());
     }
 }
