@@ -3,13 +3,14 @@ package com.example.contactmanagerapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.UUID;
 
-public class Contact implements Comparable<Contact> {
+public class Contact implements Comparable<Contact>, Serializable {
     private UUID id; //pour avoir un truc unique
     @NonNull
     private String Name;
